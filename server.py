@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 qrc = Flask(__name__)
 api = Api(qrc)
 qrc.config['ERROR_404_HELP'] = False
-UPLOAD_FOLDER = '/home/msys/'
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 qrc.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 qrc.secret_key = "amvobyul$%#!@"
