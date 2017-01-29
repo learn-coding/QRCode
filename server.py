@@ -1,4 +1,5 @@
 import os
+import sys
 
 from flask import *
 from flask_restful import Api
@@ -42,6 +43,8 @@ def upload_file():
 '''
 
 if __name__ == "__main__":
-    qrc.run("10.0.2.15", port=8888, debug=True)
+    address = sys.argv[1] if len(sys.argv) > 1 else "10.0.2.15"
+    port = int(sys.argv[2]) if len(sys.argv) > 2 else 8888
+    qrc.run(address, port=port, debug=True)
 
 
