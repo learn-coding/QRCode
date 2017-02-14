@@ -3,8 +3,15 @@ import sys
 
 from flask import *
 from flask_restful import Api
+from flask_login import current_user
+from flask_login import LoginManager
+
+from users import User
 
 from qr_code import QRCode
+from login import Login
+from logout import Logout
+
 from werkzeug.utils import secure_filename
 
 qrc = Flask(__name__)
@@ -15,7 +22,22 @@ qrc.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 qrc.secret_key = "amvobyul$%#!@"
 
+login_manager = LoginManager()
+login_manager.login_view = 'index'
+login_manager.init_app(qrc)
+
 api.add_resource(QRCode, '/qrcode') #, '/qrcode/upload')
+api.add_resource(Login, '/qrcode/login')
+api.add_resource(Logout, '/qrcode/logout')
+
+@login_manager.user_loader
+def load_user(qr_id):
+  return User.get(qr_id)
+
+
+@qrc.before_request
+def before_request():
+  g.user = current_user
 
 @qrc.route("/")
 def hello():

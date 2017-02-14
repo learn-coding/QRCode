@@ -5,6 +5,7 @@ import os
 from flask import *
 from flask_restful import reqparse, Resource
 #import werkzeug
+from login import loginRequired
 from werkzeug.utils import secure_filename
 
 from core import Core
@@ -20,8 +21,10 @@ class QRCode(Resource):
   def __init__(self):
     pass
 	
+  @loginRequired
   def get(self):
     #curl cmd : curl -i -X GET -H "Content-Type: multipart/form-data" -F "file=@F:/QRCode/filename.png" http://127.0.0.1:8888/qrcode
+    #curl cmd : curl -i -X GET -H "Content-Type: multipart/form-data" -F "file=@F:/QRCode/filename.png" --cookie "token=WyJcIjQ2MDg2NzlGQTBBODdBMkRcIiJd.C38kOw.Q8_VfKndp2WTuLWIjT93lzTHAJY" http://127.0.0.1:8888/qrcode
     if 'file' not in request.files:
         flash('No file part')
         return "file not found"
