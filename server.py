@@ -11,6 +11,9 @@ from users import User
 from qr_code import QRCode
 from login import Login
 from logout import Logout
+from products import Products
+from drop_table import DropTable
+from coupon import Coupon
 
 from werkzeug.utils import secure_filename
 
@@ -29,6 +32,10 @@ login_manager.init_app(qrc)
 api.add_resource(QRCode, '/qrcode') #, '/qrcode/upload')
 api.add_resource(Login, '/qrcode/login')
 api.add_resource(Logout, '/qrcode/logout')
+api.add_resource(Products, '/qrcode/products')
+api.add_resource(DropTable, '/qrcode/droptable')
+api.add_resource(Coupon, '/qrcode/coupon')
+
 
 @login_manager.user_loader
 def load_user(qr_id):

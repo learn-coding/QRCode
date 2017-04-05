@@ -21,7 +21,7 @@ class QRCode(Resource):
   def __init__(self):
     pass
 	
-  @loginRequired
+  #@loginRequired
   def get(self):
     #curl cmd : curl -i -X GET -H "Content-Type: multipart/form-data" -F "file=@F:/QRCode/filename.png" http://127.0.0.1:8888/qrcode
     #curl cmd : curl -i -X GET -H "Content-Type: multipart/form-data" -F "file=@F:/QRCode/filename.png" --cookie "token=WyJcIjQ2MDg2NzlGQTBBODdBMkRcIiJd.C38kOw.Q8_VfKndp2WTuLWIjT93lzTHAJY" http://127.0.0.1:8888/qrcode
@@ -42,18 +42,18 @@ class QRCode(Resource):
         #return "FIle successfully uploaded"
         qr = qrtools.QR()
         qr.decode(filepath)
-        id_complete_data = Core.get_instance().read_data_from_db(qr.data)
+        id_complete_data = Core.get_instance().read_data_from_product_db(qr.data)
         return id_complete_data
 
 
   def post(self):
     #curl cmd : curl -i -H "Content-Type: application/json" -X POST -d "{\"name\" : \"Niladri\", \"sex\" : \"M\", \"age\" : 31}" http://127.0.0.1:8888/qrcode
     qr_info = postargs.parse_args()
-    qr_info['user_id'] = Core.get_instance().create_random()
+    qr_info['user_id'] = Core.get_instance().create_random(16)
     #input = 'name: ' + 	qr_info['name'] + '\n ID: ' + str(qr_info['id'])
     #print qr_info['user_id']
     img = qrcode.make(qr_info['user_id'])
-    Core.get_instance().write_data_to_db(qr_info)
+    Core.get_instance().write_data_to_product_db(qr_info)
     img.save("filename.png")
     msg = 'QR code created successfully' #% (poolName)
     return {'status': "true", 'message': msg}, 201
