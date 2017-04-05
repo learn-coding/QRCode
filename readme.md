@@ -17,6 +17,37 @@ Steps to run :
    by updating the host port and the guest port field with a port number, to be used in the above line. 
    The ip is the machine ip provided by ifconfig. 
    Please note to shut off the firewall of both Host and VM to facilitate the communication.
+   
+   
+Updated in qrcode-05-04-17 commit
+
+2) The cURL cmd to add a new product:
+
+   curl -i -H "Content-Type: application/json" -X POST -d "{\"name\" : \"Coca Cola 500 mL\", \"amount\" : 60, \"quantity\" : 10}" http://127.0.0.1:8888/qrcode/products
+   
+   
+3) cURL cmd to see the list of all the products:
+
+   curl -i -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/qrcode/products
+   
+4) A user can see all the produts from the above list and can request for a coupon for particular product with the unique product id of the particular product
+
+   curl -i -H "Content-Type: application/json" -X POST -d "{\"product_id\" : \"BBDA9\"}" http://127.0.0.1:8888/qrcode/coupon
+   
+5) The unique QR code coupon is now generated, when it is read it must return the information of that particular product
+
+   curl -i -X GET -H "Content-Type: multipart/form-data" -F "file=@F:/QRCode/filename_BBDA9.png" http://127.0.0.1:8888/qrcode/coupon
+   
+6) Along with this a drop table API is also created for the ease of the developers:
+
+   curl -i -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/qrcode/droptable
+   
+   
+   
+==================================================================================================================================================
+
+Not needed as of now:  
+   
 
 2) The cURL command to create a QR image with supplied information is : 
    
